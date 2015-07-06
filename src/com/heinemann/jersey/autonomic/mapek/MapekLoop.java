@@ -18,13 +18,16 @@ public class MapekLoop implements Runnable, ServletContextListener {
 	private boolean isRunning = false;
 	private KnowledgeBase knowledgeBase;
 	private Monitor monitor;
-	private Analyzer analzyer;
+	private Analyzer analyzer;
 	private Planner planner;
 	private Effector effector;
 	
 	public MapekLoop() {
 		managedResource = UriBuilder.fromUri("http://rigi-lab-03.cs.uvic.ca:8080/com.heinemann.jersey.apmplanner/rest/uas").build();
 		monitor = new Monitor(knowledgeBase, managedResource);
+		analyzer = new Analyzer(knowledgeBase);
+		planner = new Planner(knowledgeBase);
+		effector = new Effector(knowledgeBase, managedResource);
 	}
 	
 	@Override
@@ -32,10 +35,12 @@ public class MapekLoop implements Runnable, ServletContextListener {
 		while (isRunning) {
 			System.out.println("***** MAPE-K is running *****");
 			monitor.monitor();
+			analyzer.analyze();
+			planner.plan();
+			effector.effect();
 			try {
 				Thread.sleep(5000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -43,9 +48,9 @@ public class MapekLoop implements Runnable, ServletContextListener {
 	
 	public void start() {
 		if (!isRunning) {
+			isRunning = true;
 			mapek = new Thread(this);
 			mapek.start();
-			isRunning = true;
 		}
 	}
 	

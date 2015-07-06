@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<script type="text/javascript">
+var request = new XMLHttpRequest();
+
+function submitForm(method, url, formId) {
+	var form = document.getElementById(formId);
+	var mimeType = "application/x-www-form-urlencoded";
+	request.open(method, url);
+	request.setRequestHeader("Content-Type", mimeType);
+	request.send(new FormData(form));
+}
+</script>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>UAS Autonomic Manager</title>
+</head>
+<body>
+	<h1>UAS Autonomic Manager</h1>
+	<hr>
+	<form id="amform" name="amform" action="../com.heinemann.jersey.apmplanner/rest/subscribers" method="POST">
+		<label for="resource">Resource</label>
+		<input id="resource" name="resource" type="text" value="http://rigi-lab-03.cs.uvic.ca:8080/com.heinemann.jersey.apmplanner/rest/uas" />
+		<br>
+		<label for="policy">Policy</label>
+		<select id="policy" name="policy">
+			<option value="SAFETY" selected>Safety</option>
+			<option value="EFFECTIVENESS">Effectiveness</option>
+		</select>
+		<br>
+		<input type="button" value="Submit" onClick="submitForm('PUT','http://rigi-lab-03.cs.uvic.ca:8080/com.heinemann.jersey.autonomic/rest/am','amform')" />
+	</form>
+</body>
+</html>
