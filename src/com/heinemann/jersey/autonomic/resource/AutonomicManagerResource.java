@@ -1,5 +1,8 @@
 package com.heinemann.jersey.autonomic.resource;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -7,6 +10,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 import javax.xml.bind.JAXBElement;
@@ -19,6 +23,7 @@ import com.heinemann.jersey.autonomic.model.Policy;
 @Path("/am")
 public class AutonomicManagerResource {
 	
+	public static final String MANAGER_URL = "../manager.html";
 	public static final String POLICY = "policy";
 	public static final String RESOURCE = "resource";
 	
@@ -39,11 +44,14 @@ public class AutonomicManagerResource {
 	
 	@PUT
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.TEXT_HTML)
 	public void setAutonomicManager(
 			@FormParam(POLICY) String policy,
-			@FormParam(RESOURCE) String resource) {
+			@FormParam(RESOURCE) String resource,
+			@Context HttpServletResponse servletResponse) throws IOException {
 		MapekLoop.policy = Policy.valueOf(policy);
-		MapekLoop.managedResource = UriBuilder.fromUri(resource).build();
+		MapekLoop.managedResource = UriBuilder.fromUri(resource).build();	
+		servletResponse.sendRedirect(MANAGER_URL);
 	}
 	
 	@POST
