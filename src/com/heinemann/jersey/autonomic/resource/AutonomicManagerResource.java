@@ -15,7 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 import javax.xml.bind.JAXBElement;
 
-import com.heinemann.grpc.apmplanner.events.ApmEvents.UasEvent;
+import com.heinemann.grpc.apmplanner.events.XmlUasEvent;
 import com.heinemann.jersey.autonomic.mapek.MapekLoop;
 import com.heinemann.jersey.autonomic.model.AutonomicManager;
 import com.heinemann.jersey.autonomic.model.Policy;
@@ -56,12 +56,12 @@ public class AutonomicManagerResource {
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_XML)
-	public void receiveEvent(JAXBElement<UasEvent> event) {
-		UasEvent uasEvent = event.getValue();
+	public void receiveEvent(JAXBElement<XmlUasEvent> event) {
+		XmlUasEvent xmlUasEvent = event.getValue();
 		System.out.println("***** receivedEvent *****");
-		System.out.println(uasEvent.getIdentifier());
-		System.out.println(uasEvent.getSource());
-		System.out.println(uasEvent.getParameters());
+		System.out.println(xmlUasEvent.getIdentifier());
+		System.out.println(xmlUasEvent.getSource());
+		System.out.println(xmlUasEvent.getParameters());
 	}
 	
 }
