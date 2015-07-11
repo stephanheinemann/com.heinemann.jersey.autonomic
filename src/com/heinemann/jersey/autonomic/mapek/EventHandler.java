@@ -25,7 +25,6 @@ public class EventHandler {
 			if (xmlUasEvent.getIdentifier().equals(BATTERY_CHANGED_EVENT)) {
 				knowledgeBase.enqueueEvent(xmlUasEvent);
 			}
-			// handle low current event immediately
 		}
 	}
 }

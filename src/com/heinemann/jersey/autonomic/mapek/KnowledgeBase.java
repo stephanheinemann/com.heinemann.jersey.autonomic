@@ -3,10 +3,14 @@ package com.heinemann.jersey.autonomic.mapek;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import com.heinemann.grpc.apmplanner.ApmPlanner.Uas;
 import com.heinemann.grpc.apmplanner.events.XmlUasEvent;
 
+// TODO: knowledge base could be a hibernate interface
 public class KnowledgeBase {
 
+	// TODO: store Uas history data in ringbuffer
+	private Uas uas;
 	private boolean isCurrentSafe = true;
 	private List<Action> plan;
 	
@@ -27,6 +31,14 @@ public class KnowledgeBase {
 	
 	public boolean hasEvents() {
 		return !eventQueue.isEmpty();
+	}
+	
+	public void storeUas(Uas uas) {
+		this.uas = uas;
+	}
+	
+	public Uas retrieveUas() {
+		return this.uas;
 	}
 	
 	public boolean isCurrentSafe() {

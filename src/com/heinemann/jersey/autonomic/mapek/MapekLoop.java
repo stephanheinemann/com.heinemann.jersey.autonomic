@@ -37,6 +37,7 @@ public class MapekLoop implements Runnable, ServletContextListener {
 	private static URI managedResource;
 	private static Policy policy = Policy.SAFETY;
 
+	// TODO: think about singleton instead of static methods
 	public MapekLoop() {
 		managedResource = UriBuilder.fromUri(MANAGED_RESOURCE).build();
 		knowledgeBase = new KnowledgeBase();
@@ -86,9 +87,7 @@ public class MapekLoop implements Runnable, ServletContextListener {
 	@Override
 	public void run() {
 		setManagedResource(managedResource);
-		// TODO: implement method for changing policy and managed resource
 		while (isRunning) {
-			System.out.println("***** MAPE-K is running *****");
 			monitor.monitor();
 			analyzer.analyze();
 			planner.plan();
