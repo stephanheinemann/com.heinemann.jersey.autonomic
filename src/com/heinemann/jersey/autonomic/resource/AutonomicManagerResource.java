@@ -37,8 +37,8 @@ public class AutonomicManagerResource {
 		MediaType.APPLICATION_JSON })
 	public AutonomicManager getAutonomicManager() {
 		AutonomicManager am = new AutonomicManager();
-		am.setPolicy(MapekLoop.policy);
-		am.setManagedResource(MapekLoop.managedResource);
+		am.setPolicy(MapekLoop.getPolicy());
+		am.setManagedResource(MapekLoop.getManagedResource());
 		return am;
 	}
 	
@@ -49,8 +49,8 @@ public class AutonomicManagerResource {
 			@FormParam(POLICY) String policy,
 			@FormParam(RESOURCE) String resource,
 			@Context HttpServletResponse servletResponse) throws IOException {
-		MapekLoop.policy = Policy.valueOf(policy);
-		MapekLoop.managedResource = UriBuilder.fromUri(resource).build();	
+		MapekLoop.setPolicy(Policy.valueOf(policy));
+		MapekLoop.setManagedResource(UriBuilder.fromUri(resource).build());	
 		servletResponse.sendRedirect(MANAGER_URL);
 	}
 	
@@ -58,10 +58,7 @@ public class AutonomicManagerResource {
 	@Consumes(MediaType.APPLICATION_XML)
 	public void receiveEvent(JAXBElement<XmlUasEvent> event) {
 		XmlUasEvent xmlUasEvent = event.getValue();
-		System.out.println("***** receivedEvent *****");
-		System.out.println(xmlUasEvent.getIdentifier());
-		System.out.println(xmlUasEvent.getSource());
-		System.out.println(xmlUasEvent.getParameters());
+		MapekLoop.handleEvent(xmlUasEvent);
 	}
 	
 }

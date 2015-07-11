@@ -1,5 +1,8 @@
 package com.heinemann.jersey.autonomic.mapek;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Planner {
 	private KnowledgeBase knowledgeBase;
 
@@ -8,5 +11,10 @@ public class Planner {
 	}
 
 	public void plan() {
+		List<Action> plan = new ArrayList<Action>();
+		if (!knowledgeBase.isCurrentSafe()) {
+			plan.add(new Action(Action.COMMAND_REBOOT));
+		}
+		knowledgeBase.setPlan(plan);
 	}
 }
